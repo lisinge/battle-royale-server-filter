@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+
+  "name": "Battle Royale Server Filter",
+  "description": "This extension adds filters to the battle royale server page",
+  "version": "0.1",
+
+  "permissions": ["storage"],
+
+  "content_scripts": [
+    {
+      "matches": ["http://battleroyale.gamingdeluxe.co.uk/*"],
+      "all_frames": true,
+      "js": ["jquery-2.1.1.min.js", "server_filter.js"],
+      "css": ["server_filter.css"]
+    }
+  ]
+}
