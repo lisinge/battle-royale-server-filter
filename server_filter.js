@@ -66,7 +66,7 @@ $("form#filter_form input").change(function () {
   filter();
 });
 
-// Cache server names and add them to offline servers
+// Cache server names and populate offline servers
 $("div.status_wrapper").each(function(){
   var element = $(this);
   var server_name = element.find("div.server_name").html();
@@ -81,6 +81,23 @@ $("div.status_wrapper").each(function(){
     var obj = {};
     obj[server_ip] = server_name;
     chrome.storage.local.set(obj);
+  }
+});
+
+// Fade out servers which have just started or is getting close to full
+$("div.status_wrapper").each(function(){
+  var element = $(this);
+  var server_status = element.find("div.server_status span").html().trim();
+
+  if (server_status === "GAME IN PROGRESS" || server_status === "SERVER OPEN") {
+    var players = element.find("div.server_players").html().replace(/&nbsp;/g, '');
+    var current_players = players.split("/")[0];
+    var max_players = players.split("/")[1];
+    var progress = (max_players - current_players) / max_players;
+
+    if (progress < 0.2) progress = 0.2;
+
+    element.css("opacity", progress);
   }
 });
 
